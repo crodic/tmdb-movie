@@ -1,14 +1,9 @@
-import * as fetchAXIOS from '../axios'
+import axios from "../axios";
 
-export const ServiceAPI = async (option1, options2) => {
+export const ServiceAPI = async (page) => {
     try {
-        const data = await fetchAXIOS.getAPI('/id/user', {
-            params: {
-                option1,
-                options2
-            }
-        })
-        return data
+        let data = await axios.get(`/${page}`); // Tham số thứ 2 là 1 object chứa params,...
+        return data.data
     } catch (error) {
         return error
     }

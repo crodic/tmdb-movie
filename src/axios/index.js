@@ -1,12 +1,20 @@
 import axios from 'axios';
 
-const request = axios.create({
-    baseURL: ''
+const customizeAxios = axios.create({
+    baseURL: import.meta.env.VITE_BASE_URL
 })
 
-export const getAPI = async (url, options = {}) => {
-    const data = await request.get(url, options)
-    return data
-}
+customizeAxios.interceptors.request.use(function (config) {
+    return config;
+}, function (error) {
+    return Promise.reject(error);
+});
 
-export default request
+customizeAxios.interceptors.response.use(function (response) {
+    return response;
+}, function (error) {
+    return Promise.reject(error);
+});
+
+export default customizeAxios;
+

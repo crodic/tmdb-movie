@@ -1,3 +1,1 @@
-import { createSlice } from "@reduxjs/toolkit";
-
-// (state) => state.[name_reducer]
+// Example: const [useSelectorValue] = (state) => state.[name_reducer in store]
