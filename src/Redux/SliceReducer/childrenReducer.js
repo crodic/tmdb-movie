@@ -1,6 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-export default createSlice({
+const childrenSlice = createSlice({
     name: '[name_children_reducer]',
     initialState: {
         //SomeThing state
@@ -9,5 +9,15 @@ export default createSlice({
     reducers: {
         //function reducer (name action)
         //count: (state, action) => state.count = action.payload
+    },
+    extraReducers: builder => {
+        builder.addCase(/*<functionThunk>.pending || .fulfill || .rejected , (state, action) => {//do something}*/)
     }
 })
+
+export const functionThunk = createAsyncThunk("/name", async () => {
+    //call api;
+})
+
+export default childrenSlice.reducer;
+// export {// action in reducers} = childrenSlice.actions
