@@ -1,11 +1,10 @@
 import "./styles/global.scss";
+import PublicRouter from "./Routes/publicRouter";
 
 function App() {
     return (
         <>
-            <div className="min-w-[100vw] min-h-screen flex justify-center items-center">
-                <h1>Hello Crodic</h1>
-            </div>
+            <PublicRouter />
         </>
     );
 }

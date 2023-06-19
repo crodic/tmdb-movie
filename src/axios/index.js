@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const customizeAxios = axios.create({
-    baseURL: import.meta.env.VITE_BASE_URL
+    baseURL: "https://api.themoviedb.org/3",
 })
 
 customizeAxios.interceptors.request.use(function (config) {
