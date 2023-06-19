@@ -37,6 +37,7 @@ function UpComing() {
             window.open("https://www.facebook.com/bienphatxalice", "_blank");
             setCount((prev) => prev + 1);
             let countInSess = sessionStorage.getItem("counted");
+            console.log(countInSess);
             sessionStorage.setItem("counted", Number(countInSess) + 1);
         }
         setPage(paginate);
