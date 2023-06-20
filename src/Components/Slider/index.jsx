@@ -4,7 +4,6 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Autoplay, Pagination } from "swiper";
 import "./style.scss";
-import { getMovieTrending } from "../../api-services/trendingServices";
 import { useDispatch, useSelector } from "react-redux";
 import { getCarouselData } from "../../Redux/selector";
 import { fetchTrending } from "../../Redux/SliceReducer/carouselSlice";

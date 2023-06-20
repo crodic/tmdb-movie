@@ -1,13 +1,15 @@
-import { Pagination } from "antd";
+import { Pagination, Skeleton } from "antd";
 import CardMovie from "../CardMovie";
 import { useEffect, useState } from "react";
 import { getUpComingMovie } from "../../api-services/upComingServices";
+import Skeletons from "../Skeleton";
 
 function UpComing() {
     const [count, setCount] = useState(0);
     const [page, setPage] = useState(1);
     const [total, setTotal] = useState(0);
     const [listMovie, setListMovie] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         let counted = sessionStorage.getItem("counted")
@@ -22,12 +24,17 @@ function UpComing() {
 
     const fetchUpComingData = async (page) => {
         try {
+            setLoading(true);
             let res = await getUpComingMovie(page);
+            setTimeout(() => {
+                setLoading(false);
+            }, 2000);
             if (res && res.status) {
                 setListMovie(res.data.results);
                 setTotal(res.data.total_results);
             }
         } catch (error) {
+            setLoading(false);
             throw new Error("Not API results data");
         }
     };
@@ -37,9 +44,9 @@ function UpComing() {
             window.open("https://www.facebook.com/bienphatxalice", "_blank");
             setCount((prev) => prev + 1);
             let countInSess = sessionStorage.getItem("counted");
-            console.log(countInSess);
             sessionStorage.setItem("counted", Number(countInSess) + 1);
         }
+        window.scrollTo(0, 0);
         setPage(paginate);
     };
 
@@ -48,7 +55,10 @@ function UpComing() {
             <div className="w-full">
                 <h1 className="text-center text-2xl font-bold">UP COMING</h1>
                 <div className="my-5 flex justify-around items-center flex-wrap gap-y-3 gap-x-1">
-                    {listMovie &&
+                    {loading ? (
+                        <Skeletons />
+                    ) : (
+                        listMovie &&
                         listMovie.length > 0 &&
                         listMovie.map((movie, index) => {
                             return (
@@ -59,7 +69,8 @@ function UpComing() {
                                     id={movie.id}
                                 />
                             );
-                        })}
+                        })
+                    )}
                 </div>
                 <div className="flex justify-center items-center">
                     <Pagination
@@ -67,6 +78,7 @@ function UpComing() {
                         onChange={onChange}
                         showSizeChanger={false}
                         showLessItems={true}
+                        disabled={loading}
                     />
                 </div>
             </div>

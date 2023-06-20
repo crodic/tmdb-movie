@@ -1,3 +1,4 @@
+import Footer from "../../Components/Footer";
 import Header from "../../Components/Header";
 import PublicLayout from "../../Layout/PublicLayout";
 
@@ -6,6 +7,7 @@ function Home() {
         <>
             <Header />
             <PublicLayout />
+            <Footer />
         </>
     );
 }

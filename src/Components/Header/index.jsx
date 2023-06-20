@@ -10,6 +10,7 @@ import { Bars2Icon } from "@heroicons/react/24/outline";
 import ProfileMenu from "./ProfileMenu";
 import NavList from "./NavList";
 import { Link } from "react-router-dom";
+import "./style.scss";
 
 export default function Header() {
     const [isNavOpen, setIsNavOpen] = React.useState(false);
@@ -44,11 +45,20 @@ export default function Header() {
                 {auth ? (
                     <ProfileMenu />
                 ) : (
-                    <div className="gap-2 lg:flex lg:ml-auto">
-                        <Button variant="text" size="sm" color="blue-gray">
+                    <div className="lg:ml-auto flex">
+                        <Button
+                            variant="text"
+                            size="sm"
+                            color="blue-gray"
+                            className="button-actions"
+                        >
                             Sign In
                         </Button>
-                        <Button variant="gradient" size="sm">
+                        <Button
+                            variant="gradient"
+                            size="sm"
+                            className="button-actions"
+                        >
                             Sign Up
                         </Button>
                     </div>

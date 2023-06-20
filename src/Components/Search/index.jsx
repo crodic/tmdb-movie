@@ -65,8 +65,8 @@ function Search() {
     }
 
     return (
-        <div className="search-movie flex justify-end items-center">
-            <div className="w-[50%] md:w-[40%] h-[35px] border-2 rounded relative">
+        <div className="flex justify-end items-center">
+            <div className="search-movie hover:w-[100%] w-[50%] md:hover:w-[40%] md:w-[40%] h-[35px] border-2 rounded relative">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -89,7 +89,7 @@ function Search() {
                     onBlur={() => handleBlur()}
                     type="search"
                     placeholder="Search The Movie..."
-                    className="w-full h-full pl-8 border-none outline-none"
+                    className="input-search w-full h-full pl-8 border-none outline-none"
                 />
                 {open && (
                     <div className="tooltip absolute left-0 right-0 shadow-lg">
@@ -121,7 +121,10 @@ function Search() {
                                                 handleClick(movie.id)
                                             }
                                         >
-                                            <div>
+                                            <div
+                                                className="line-break"
+                                                title={movie.name}
+                                            >
                                                 {capitalizeFirstLetter(
                                                     movie.name
                                                 )}
