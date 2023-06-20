@@ -47,7 +47,7 @@ function UpComing() {
         <>
             <div className="w-full">
                 <h1 className="text-center text-2xl font-bold">UP COMING</h1>
-                <div className="mb-5 flex justify-around items-center flex-wrap gap-x-2 gap-y-4">
+                <div className="my-5 flex justify-around items-center flex-wrap gap-y-3 gap-x-1">
                     {listMovie &&
                         listMovie.length > 0 &&
                         listMovie.map((movie, index) => {
@@ -66,6 +66,7 @@ function UpComing() {
                         total={total === 0 ? 1 : total}
                         onChange={onChange}
                         showSizeChanger={false}
+                        showLessItems={true}
                     />
                 </div>
             </div>

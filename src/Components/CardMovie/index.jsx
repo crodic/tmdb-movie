@@ -10,7 +10,7 @@ const CardMovie = ({ image, title, id }) => {
     return (
         <>
             <div
-                className="card-container max-w-[200px] min-w-[200px] relative overflow-hidden rounded"
+                className="card-container shadow-lg hover:shadow-xl w-[45%] lg:w-[30%] relative overflow-hidden rounded"
                 onClick={() => {
                     handleOnClick(id);
                 }}
@@ -24,9 +24,9 @@ const CardMovie = ({ image, title, id }) => {
                                 : Image
                         }
                         alt=""
-                        className="max-h-[112px] min-w-full"
+                        className="w-full min-h-[102px] lg:h-[160px]"
                     />
-                    <div className="content-card min-h-[30px] bg-[#41414150] absolute z-10 left-0 right-0 bottom-[-113px] p-2">
+                    <div className="content-card min-h-[30px] bg-[#41414150] absolute z-10 left-0 right-0 bottom-[-113px] p-2 text-[12px] lg:text-base">
                         <span>{title}</span>
                     </div>
                 </Link>

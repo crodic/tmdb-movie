@@ -1,12 +1,24 @@
 .card-container {
     cursor: pointer;
 
+    &:last-child {
+        width: 46.5%;
+    }
+
+    &:not(:last-child):nth-last-child(2) {
+        width: 46.5%;
+    }
+
     .content-card {
         transition: all 0.5s linear;
 
         span {
             font-weight: 500;
             color: white;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            overflow: hidden;
+            -webkit-box-orient: vertical;
         }
     }
     &:hover .content-card {

@@ -1,4 +1,5 @@
 import CardMovie from "../../Components/CardMovie";
+import Search from "../../Components/Search";
 import ShowManager from "../../Components/ShowManager";
 import Slider from "../../Components/Slider";
 import UpComing from "../../Components/UpComing";
@@ -63,6 +64,7 @@ function PublicLayout() {
                         </ShowManager>
                     </div>
                 </div>
+                <Search />
                 <UpComing />
             </div>
         </>
