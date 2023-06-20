@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateValue } from "../../Redux/SliceReducer/searchSlice";
 import { getValueSearch } from "../../Redux/selector";
@@ -13,6 +13,7 @@ function Search() {
     const search = useSelector(getValueSearch);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const input = useRef(null);
 
     const handleClick = (id) => {
         navigate(`/movie/${id}`);
@@ -64,6 +65,10 @@ function Search() {
         return capitalizedStr;
     }
 
+    const handleClickAll = () => {
+        input.current.focus();
+    };
+
     return (
         <div className="flex justify-end items-center">
             <div className="search-movie hover:w-[100%] w-[50%] md:hover:w-[40%] md:w-[40%] h-[35px] border-2 rounded relative">
@@ -83,16 +88,17 @@ function Search() {
                 </svg>
 
                 <input
+                    ref={input}
                     value={search}
                     onChange={(e) => handleChange(e)}
                     onFocus={() => handleFocus()}
-                    onBlur={() => handleBlur()}
+                    onBlur={(e) => handleBlur(e)}
                     type="search"
                     placeholder="Search The Movie..."
                     className="input-search w-full h-full pl-8 border-none outline-none"
                 />
                 {open && (
-                    <div className="tooltip absolute left-0 right-0 shadow-lg">
+                    <div className="tooltip absolute left-0 right-0 shadow-lg popover-item">
                         {data && data.length > 0 ? (
                             data.map((movie) => {
                                 return (
@@ -139,7 +145,12 @@ function Search() {
                             </div>
                         )}
                         {data && data.length > 0 && (
-                            <div className="min-h-[30px] text-center hover:text-white font-bold">
+                            <div
+                                className="min-h-[30px] text-center hover:text-white font-bold"
+                                onClick={() => {
+                                    handleClickAll;
+                                }}
+                            >
                                 Xem Thêm
                             </div>
                         )}

@@ -1,27 +1,13 @@
-import { useEffect, useState } from "react";
 import Header from "../../Components/Header";
-import { getMovieByID } from "../../api-services/upComingServices";
-import { useParams } from "react-router-dom";
+import Footer from "../../Components/Footer";
+import Detail from "../../Components/Detail";
 
 function MovieDetail() {
-    const [movie, setMovie] = useState({});
-    const { id } = useParams();
-    useEffect(() => {
-        fetchMovieID(id);
-    }, []);
-
-    const fetchMovieID = async (id) => {
-        try {
-            let res = await getMovieByID(id);
-            if (res && res.status === 200) {
-                setMovie(res.data);
-            }
-        } catch (error) {}
-    };
-
     return (
         <>
             <Header />
+            <Detail />
+            <Footer />
         </>
     );
 }

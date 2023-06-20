@@ -1,0 +1,25 @@
+.lang {
+    top: -12px;
+    left: -12px;
+    cursor: pointer;
+    transition: all 0.5s linear;
+
+    &:hover {
+        background-color: rgba(0, 132, 255, 0.249);
+        color: white;
+    }
+}
+
+.content-main::-webkit-scrollbar {
+    width: 5px;
+    background-color: aliceblue;
+    border-radius: 10px;
+}
+
+.content-main::-webkit-scrollbar-track {
+    background-color: #fafafa;
+}
+.content-main::-webkit-scrollbar-thumb {
+    background-image: linear-gradient(to right, #acb6e5, #86dfe8);
+    border-radius: 50px;
+}
