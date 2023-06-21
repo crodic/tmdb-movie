@@ -42,12 +42,13 @@ const ModalTrailer = () => {
     };
     return (
         <>
-            <Space wrap>
+            <Space wrap className="justify-center mb-[10px] lg:mb-0">
                 <Dropdown.Button
                     danger
                     menu={menuProps}
                     onClick={handleButtonClick}
                     overlayClassName="menu-video"
+                    placement="bottom"
                 >
                     Collection Trailer
                 </Dropdown.Button>

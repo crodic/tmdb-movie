@@ -115,7 +115,7 @@ function Detail() {
                         <span className="font-bold">Reviews: </span>
                         <span>{movie.vote_average} </span>
                     </div>
-                    <div className="flex justify-between my-3">
+                    <div className="flex flex-col lg:flex-row justify-between my-3">
                         {movie.status && movie.status === "Released" ? (
                             <>
                                 <ModalTrailer />
