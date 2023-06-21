@@ -17,4 +17,10 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
+
+    .disable-button {
+        user-select: none;
+        cursor: not-allowed;
+        display: none;
+    }
 }
