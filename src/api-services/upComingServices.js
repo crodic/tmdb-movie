@@ -1,3 +1,4 @@
+import axios from "axios";
 import customizeAxios from "../axios";
 
 export const getUpComingMovie = (page) => {
@@ -5,7 +6,7 @@ export const getUpComingMovie = (page) => {
         params: { language: 'en-US', page: page },
         headers: {
             accept: 'application/json',
-            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZmU2OTU4MWFiNjFmODZlNmJhNzhkMzc3ZDZjNDczNCIsInN1YiI6IjY0MDgzMjQ4NTNmODMzMDA3Y2IyOTUwYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.hUh31hwh0jBBTAtw-b0QRGRbPSukg2_QdEEbaBHQviQ'
+            Authorization: `Bearer ${import.meta.env.VITE_API_KEY_AUTH}`
         }
     })
 }
@@ -14,16 +15,25 @@ export const getMovieByID = (id) => {
     return customizeAxios.get(`/movie/${id}`, {
         headers: {
             accept: 'application/json',
-            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZmU2OTU4MWFiNjFmODZlNmJhNzhkMzc3ZDZjNDczNCIsInN1YiI6IjY0MDgzMjQ4NTNmODMzMDA3Y2IyOTUwYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.hUh31hwh0jBBTAtw-b0QRGRbPSukg2_QdEEbaBHQviQ',
+            Authorization: `Bearer ${import.meta.env.VITE_API_KEY_AUTH}`
         }
     })
 }
 
-export const getMovieByKeyword = (keyword) => {
-    return customizeAxios.get(`/search/keyword?query=${keyword}&page=1`, {
+export const getMovieByKeyword = (keyword, page) => {
+    return customizeAxios.get(`/search/keyword?query=${keyword}&page=${page}`, {
         headers: {
             accept: 'application/json',
-            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhZmU2OTU4MWFiNjFmODZlNmJhNzhkMzc3ZDZjNDczNCIsInN1YiI6IjY0MDgzMjQ4NTNmODMzMDA3Y2IyOTUwYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.hUh31hwh0jBBTAtw-b0QRGRbPSukg2_QdEEbaBHQviQ',
+            Authorization: `Bearer ${import.meta.env.VITE_API_KEY_AUTH}`
+        }
+    })
+}
+
+export const getVideoByID = (id) => {
+    return customizeAxios.get(`/movie/${id}/videos`, {
+        headers: {
+            accept: 'application/json',
+            Authorization: `Bearer ${import.meta.env.VITE_API_KEY_AUTH}`
         }
     })
 }

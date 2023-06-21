@@ -7,15 +7,21 @@ import "./style.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { getCarouselData } from "../../Redux/selector";
 import { fetchTrending } from "../../Redux/SliceReducer/carouselSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function Slider() {
     const { data } = useSelector(getCarouselData);
     const dataImages = data.data?.results;
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         dispatch(fetchTrending());
     }, []);
+
+    const handleClick = (id) => {
+        navigate(`/movie/${id}`);
+    };
 
     return (
         <Swiper
@@ -41,6 +47,9 @@ export default function Slider() {
                                 alt={image.title}
                                 title={image.title}
                                 className="images-banner"
+                                onClick={() => {
+                                    handleClick(image.id);
+                                }}
                             />
                         </SwiperSlide>
                     );

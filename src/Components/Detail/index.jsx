@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getMovieByID } from "../../api-services/upComingServices";
 import { Button } from "antd";
 import EllipsisContent from "../EllipsisContent";
 import "./style.scss";
 import ModalMap from "./ModalMap";
+import ModalTrailer from "../ModalTrailer";
 
 function Detail() {
     const [movie, setMovie] = useState({});
     const { id } = useParams();
+    const navigate = useNavigate();
     useEffect(() => {
         fetchMovieID(id);
     }, []);
@@ -19,7 +21,9 @@ function Detail() {
             if (res && res.status === 200) {
                 setMovie(res.data);
             }
-        } catch (error) {}
+        } catch (error) {
+            navigate("*");
+        }
     };
 
     const handleClick = (id) => {
@@ -28,13 +32,14 @@ function Detail() {
 
     return (
         <>
-            <div className="max-w-[80%] w-full border mx-auto mt-[50px] flex lg:flex-row flex-col rounded-xl shadow-2xl">
+            <div className="max-w-[90%] lg:max-w-[80%] w-full border mx-auto mt-[50px] flex lg:flex-row flex-col rounded-xl shadow-2xl">
                 <div className="p-5 lg:border-r-2 min-w-[30%]">
                     <div className="flex justify-center items-center ">
                         <div className="relative">
                             <img
                                 src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
-                                alt=""
+                                alt={movie.title}
+                                title={movie.title}
                                 className="h-[300px] w-[200px] rounded-md cursor-pointer"
                             />
                             <span className="lang absolute bg-blue-100 w-[30px] h-[30px] rounded-[50%] flex justify-center items-center">
@@ -110,17 +115,22 @@ function Detail() {
                         <span className="font-bold">Reviews: </span>
                         <span>{movie.vote_average} </span>
                     </div>
-                    <div className="flex justify-end my-3">
+                    <div className="flex justify-between my-3">
                         {movie.status && movie.status === "Released" ? (
-                            <Button type="primary" size="large" danger>
-                                {movie.status?.toUpperCase()}
-                            </Button>
+                            <>
+                                <ModalTrailer />
+                                <Button type="primary" size="large" danger>
+                                    {movie.status?.toUpperCase()}
+                                </Button>
+                            </>
                         ) : (
-                            <Button type="primary" size="large" disabled>
-                                {movie.status?.toUpperCase()}
-                            </Button>
+                            <>
+                                <ModalTrailer />
+                                <Button type="primary" size="large" disabled>
+                                    {movie.status?.toUpperCase()}
+                                </Button>
+                            </>
                         )}
-                        <button></button>
                     </div>
                 </div>
             </div>

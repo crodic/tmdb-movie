@@ -25,9 +25,9 @@ const navListItems = [
         to: "/trending",
     },
     {
-        label: "Popular",
+        label: "Movie",
         icon: FilmIcon,
-        to: "/popular",
+        to: "/movie",
     },
 ];
 
@@ -48,7 +48,7 @@ export default function NavList() {
                         <NavLink
                             to={to}
                             className={({ isActive }) =>
-                                isActive ? "text-red-50" : ""
+                                isActive ? "text-red-500 font-bold" : ""
                             }
                         >
                             {label}

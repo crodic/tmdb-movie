@@ -9,26 +9,35 @@ import { useNavigate } from "react-router-dom";
 function Search() {
     const [open, setOpen] = useState(false);
     const [data, setData] = useState([]);
+    const [page, setPage] = useState(1);
     const [totalData, setTotalData] = useState(0);
+    const [totalPage, setTotalPage] = useState(1);
     const search = useSelector(getValueSearch);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const input = useRef(null);
+    const popover = useRef(null);
 
     const handleClick = (id) => {
         navigate(`/movie/${id}`);
     };
 
     useEffect(() => {
-        fetchSearchMovie(search);
-    }, [search]);
+        fetchSearchMovie(search, page);
+    }, [search, page]);
 
-    const fetchSearchMovie = async (keyword) => {
+    const fetchSearchMovie = async (keyword, page) => {
         try {
             if (keyword.length > 0 && keyword !== "") {
-                let res = await getMovieByKeyword(keyword);
+                let res = await getMovieByKeyword(keyword, page);
                 if (res && res.status === 200) {
-                    setData(res.data.results);
+                    if (res.data.results.length > 0) {
+                        const combinedArray = [...data, ...res.data.results];
+                        setData(combinedArray);
+                    } else {
+                        setData(res.data.results);
+                    }
+                    setTotalPage(res.data.total_pages);
                     setTotalData(res.data.total_results);
                 }
             }
@@ -46,10 +55,10 @@ function Search() {
         setOpen(true);
     };
 
-    const handleBlur = () => {
-        setTimeout(() => {
-            setOpen(false);
-        }, 500);
+    const handleChangePage = () => {
+        if (page <= totalPage) {
+            setPage((prev) => prev + 1);
+        }
     };
 
     function capitalizeFirstLetter(str) {
@@ -65,13 +74,32 @@ function Search() {
         return capitalizedStr;
     }
 
-    const handleClickAll = () => {
-        input.current.focus();
-    };
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                input.current &&
+                !input.current.contains(event.target) &&
+                popover.current &&
+                !popover.current.contains(event.target)
+            ) {
+                setOpen(false);
+            }
+        };
+
+        document.addEventListener("click", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, []);
 
     return (
         <div className="flex justify-end items-center">
-            <div className="search-movie hover:w-[100%] w-[50%] md:hover:w-[40%] md:w-[40%] h-[35px] border-2 rounded relative">
+            <div
+                className="search-movie hover:w-[100%] w-[50%] md:hover:w-[40%] md:w-[40%] h-[35px] border-2 rounded relative"
+                ref={input}
+                onClick={(e) => handleFocus(e)}
+            >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -88,23 +116,24 @@ function Search() {
                 </svg>
 
                 <input
-                    ref={input}
                     value={search}
                     onChange={(e) => handleChange(e)}
-                    onFocus={() => handleFocus()}
-                    onBlur={(e) => handleBlur(e)}
                     type="search"
                     placeholder="Search The Movie..."
                     className="input-search w-full h-full pl-8 border-none outline-none"
                 />
-                {open && (
-                    <div className="tooltip absolute left-0 right-0 shadow-lg popover-item">
+                {open && search.length > 0 && (
+                    <div
+                        className="tooltip absolute left-0 right-0 shadow-lg popover-item"
+                        ref={popover}
+                    >
                         {data && data.length > 0 ? (
-                            data.map((movie) => {
+                            data.map((movie, index) => {
                                 return (
                                     <div
                                         className="flex items-center hover:bg-white p-2"
-                                        key={movie.id}
+                                        key={index}
+                                        onClick={() => handleClick(movie.id)}
                                     >
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -121,12 +150,7 @@ function Search() {
                                             />
                                         </svg>
 
-                                        <div
-                                            className="ml-1"
-                                            onClick={() =>
-                                                handleClick(movie.id)
-                                            }
-                                        >
+                                        <div className="ml-1">
                                             <div
                                                 className="line-break"
                                                 title={movie.name}
@@ -146,10 +170,10 @@ function Search() {
                         )}
                         {data && data.length > 0 && (
                             <div
-                                className="min-h-[30px] text-center hover:text-white font-bold"
-                                onClick={() => {
-                                    handleClickAll;
-                                }}
+                                className={`min-h-[30px] text-center hover:text-white font-bold w-full ${
+                                    page === totalPage ? "disable-button" : ""
+                                }`}
+                                onClick={() => handleChangePage()}
                             >
                                 Xem Thêm
                             </div>
