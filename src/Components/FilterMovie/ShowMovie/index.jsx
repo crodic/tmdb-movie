@@ -1,15 +1,35 @@
-import { Pagination } from "antd";
-import CardMovie from "../CardMovie";
+import { Button, Pagination } from "antd";
+import CardMovie from "../../CardMovie";
+import Skeletons from "../../Skeleton";
 import { useEffect, useState } from "react";
-import { getUpComingMovie } from "../../api-services/upComingServices";
-import Skeletons from "../Skeleton";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchFilter } from "../../../Redux/SliceReducer/filterSlice";
+import {
+    getDataFilter,
+    getDataFilters,
+    getGenesFilter,
+    getLoadingFilter,
+    getTypeMovie,
+} from "../../../Redux/selector";
 
-function UpComing() {
+function ShowMovie() {
     const [count, setCount] = useState(0);
     const [page, setPage] = useState(1);
     const [total, setTotal] = useState(0);
-    const [listMovie, setListMovie] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const data = useSelector(getDataFilters);
+    const dataFull = useSelector(getDataFilter);
+    const loading = useSelector(getLoadingFilter);
+    const genres = useSelector(getGenesFilter);
+    const type = useSelector(getTypeMovie);
+
+    const dispatch = useDispatch();
+
+    let stringGenres = genres.join(",");
+
+    const handleClick = () => {
+        dispatch(fetchFilter({ page: 1, genres: stringGenres, type: type }));
+        setPage(1);
+    };
 
     useEffect(() => {
         let counted = sessionStorage.getItem("counted")
@@ -19,25 +39,21 @@ function UpComing() {
     }, []);
 
     useEffect(() => {
-        fetchUpComingData(page);
-    }, [page]);
+        setTotal(dataFull.total_results);
+    }, [data]);
 
-    const fetchUpComingData = async (page) => {
-        try {
-            setLoading(true);
-            let res = await getUpComingMovie(page);
-            setTimeout(() => {
-                setLoading(false);
-            }, 2000);
-            if (res && res.status) {
-                setListMovie(res.data.results);
-                setTotal(res.data.total_results);
-            }
-        } catch (error) {
-            setLoading(false);
-            throw new Error("Not API results data");
+    useEffect(() => {
+        if (page > 500) {
+            dispatch(
+                fetchFilter({ page: 500, genres: stringGenres, type: type })
+            );
+            setPage(500);
+        } else {
+            dispatch(
+                fetchFilter({ page: page, genres: stringGenres, type: type })
+            );
         }
-    };
+    }, [page]);
 
     const onChange = (paginate) => {
         if (count < 3) {
@@ -49,18 +65,26 @@ function UpComing() {
         window.scrollTo(0, 0);
         setPage(paginate);
     };
-
     return (
         <>
+            <div className="mt-3">
+                <Button
+                    type="primary"
+                    danger
+                    size="large"
+                    onClick={() => handleClick()}
+                >
+                    Filter
+                </Button>
+            </div>
             <div className="w-full">
-                <h1 className="text-center text-2xl font-bold">UP COMING</h1>
                 <div className="my-5 flex justify-around items-center flex-wrap gap-y-3 gap-x-1">
                     {loading ? (
                         <Skeletons />
                     ) : (
-                        listMovie &&
-                        listMovie.length > 0 &&
-                        listMovie.map((movie, index) => {
+                        data &&
+                        data.length > 0 &&
+                        data.map((movie, index) => {
                             return (
                                 <CardMovie
                                     key={index}
@@ -84,6 +108,8 @@ function UpComing() {
                         showSizeChanger={false}
                         showLessItems={true}
                         disabled={loading}
+                        pageSize={20}
+                        current={page}
                     />
                 </div>
             </div>
@@ -91,4 +117,4 @@ function UpComing() {
     );
 }
 
-export default UpComing;
+export default ShowMovie;

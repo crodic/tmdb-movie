@@ -1,4 +1,3 @@
-import axios from "axios";
 import customizeAxios from "../axios";
 
 export const getUpComingMovie = (page) => {
@@ -11,8 +10,8 @@ export const getUpComingMovie = (page) => {
     })
 }
 
-export const getMovieByID = (id) => {
-    return customizeAxios.get(`/movie/${id}`, {
+export const getMovieByID = (id, type) => {
+    return customizeAxios.get(`/${type ? type : "movie"}/${id}`, {
         headers: {
             accept: 'application/json',
             Authorization: `Bearer ${import.meta.env.VITE_API_KEY_AUTH}`
@@ -29,8 +28,8 @@ export const getMovieByKeyword = (keyword, page) => {
     })
 }
 
-export const getVideoByID = (id) => {
-    return customizeAxios.get(`/movie/${id}/videos`, {
+export const getVideoByID = (id, type) => {
+    return customizeAxios.get(`/${type}/${id}/videos`, {
         headers: {
             accept: 'application/json',
             Authorization: `Bearer ${import.meta.env.VITE_API_KEY_AUTH}`

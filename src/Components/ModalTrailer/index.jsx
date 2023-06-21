@@ -1,7 +1,7 @@
 import { Dropdown, Space, message } from "antd";
 import { useEffect, useState } from "react";
 import { getVideoByID } from "../../api-services/upComingServices";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { YoutubeOutlined } from "@ant-design/icons";
 import "./style.scss";
 
@@ -15,6 +15,8 @@ const handleMenuClick = (e) => {
 const ModalTrailer = () => {
     const [cus, setCus] = useState([]);
     const { id } = useParams();
+    const [searchParams] = useSearchParams();
+    const type = searchParams.get("type");
 
     const menuProps = {
         items: cus,
@@ -22,12 +24,12 @@ const ModalTrailer = () => {
     };
 
     useEffect(() => {
-        fetchDataByID(id);
+        fetchDataByID(id, type);
     }, []);
 
-    const fetchDataByID = async (id) => {
+    const fetchDataByID = async (id, type) => {
         try {
-            let res = await getVideoByID(id);
+            let res = await getVideoByID(id, type);
             if (res && res.status === 200) {
                 let customize = res.data.results.map((item) => {
                     return {

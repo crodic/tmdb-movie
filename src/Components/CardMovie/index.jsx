@@ -2,9 +2,9 @@ import "./style.scss";
 import Image from "../../images/image_not_found.jpg";
 import { Link } from "react-router-dom";
 
-const CardMovie = ({ image, title, id }) => {
-    const handleOnClick = (id) => {
-        console.log(id);
+const CardMovie = ({ image, title, id, type }) => {
+    const handleOnClick = () => {
+        window.scrollTo(0, 0);
     };
 
     return (
@@ -12,11 +12,11 @@ const CardMovie = ({ image, title, id }) => {
             <div
                 className="card-container shadow-lg hover:shadow-xl w-[45%] md:w-[30%] lg:w-[30%] relative overflow-hidden rounded"
                 onClick={() => {
-                    handleOnClick(id);
+                    handleOnClick();
                 }}
                 title={title}
             >
-                <Link to={`/movie/${id}`}>
+                <Link to={`/movie/${id}?type=${type}`}>
                     <img
                         src={
                             image
