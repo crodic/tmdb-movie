@@ -20,7 +20,7 @@ export default function Slider() {
     }, []);
 
     const handleClick = (id) => {
-        navigate(`/movie/${id}`);
+        navigate(`/movie/${id}?type=movie`);
     };
 
     return (
