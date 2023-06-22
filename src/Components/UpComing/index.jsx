@@ -3,6 +3,7 @@ import CardMovie from "../CardMovie";
 import { useEffect, useState } from "react";
 import { getUpComingMovie } from "../../api-services/upComingServices";
 import Skeletons from "../Skeleton";
+import EmptyContent from "../Empty";
 
 function UpComing() {
     const [count, setCount] = useState(0);
@@ -53,13 +54,13 @@ function UpComing() {
     return (
         <>
             <div className="w-full">
-                <h1 className="text-center text-2xl font-bold">UP COMING</h1>
+                <h1 className="text-center text-2xl font-bold main-title">
+                    UP COMING
+                </h1>
                 <div className="my-5 flex justify-around items-center flex-wrap gap-y-3 gap-x-1">
                     {loading ? (
                         <Skeletons />
-                    ) : (
-                        listMovie &&
-                        listMovie.length > 0 &&
+                    ) : listMovie && listMovie.length > 0 ? (
                         listMovie.map((movie, index) => {
                             return (
                                 <CardMovie
@@ -75,6 +76,8 @@ function UpComing() {
                                 />
                             );
                         })
+                    ) : (
+                        <EmptyContent />
                     )}
                 </div>
                 <div className="flex justify-center items-center">

@@ -41,19 +41,22 @@ export default function NavList() {
                     color="blue-gray"
                     className="font-normal"
                 >
-                    <MenuItem className="flex items-center gap-2 lg:rounded-full">
-                        {React.createElement(icon, {
-                            className: "h-[18px] w-[18px]",
-                        })}{" "}
-                        <NavLink
-                            to={to}
-                            className={({ isActive }) =>
-                                isActive ? "text-red-500 font-bold" : ""
-                            }
-                        >
+                    <NavLink
+                        to={to}
+                        className={({ isActive }) =>
+                            isActive
+                                ? "text-red-500 font-bold hover:text-red-200"
+                                : ""
+                        }
+                    >
+                        <MenuItem className="flex items-center gap-2 lg:rounded-full">
+                            {React.createElement(icon, {
+                                className:
+                                    "h-[18px] w-[18px] hover:text-black-200",
+                            })}{" "}
                             {label}
-                        </NavLink>
-                    </MenuItem>
+                        </MenuItem>
+                    </NavLink>
                 </Typography>
             ))}
         </ul>

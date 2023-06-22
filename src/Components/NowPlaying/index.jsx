@@ -1,36 +1,17 @@
-import { Button, Pagination } from "antd";
-import CardMovie from "../../CardMovie";
-import Skeletons from "../../Skeleton";
+import { Pagination } from "antd";
+import CardMovie from "../CardMovie";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchFilter } from "../../../Redux/SliceReducer/filterSlice";
-import EmptyContent from "../../Empty";
-import {
-    getDataFilter,
-    getDataFilters,
-    getGenesFilter,
-    getLoadingFilter,
-    getTypeMovie,
-} from "../../../Redux/selector";
+import { getUpComingMovie } from "../../api-services/upComingServices";
+import Skeletons from "../Skeleton";
+import { getNowPlaying } from "../../api-services/homeServices";
+import EmptyContent from "../Empty";
 
-function ShowMovie() {
+function NowPlaying() {
     const [count, setCount] = useState(0);
     const [page, setPage] = useState(1);
     const [total, setTotal] = useState(0);
-    const data = useSelector(getDataFilters);
-    const dataFull = useSelector(getDataFilter);
-    const loading = useSelector(getLoadingFilter);
-    const genres = useSelector(getGenesFilter);
-    const type = useSelector(getTypeMovie);
-
-    const dispatch = useDispatch();
-
-    let stringGenres = genres.join(",");
-
-    const handleClick = () => {
-        dispatch(fetchFilter({ page: 1, genres: stringGenres, type: type }));
-        setPage(1);
-    };
+    const [listMovie, setListMovie] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         let counted = sessionStorage.getItem("counted")
@@ -40,24 +21,25 @@ function ShowMovie() {
     }, []);
 
     useEffect(() => {
-        if (dataFull.total_results > 500) {
-            console.log(total);
-        }
-        setTotal(dataFull.total_results);
-    }, [data]);
-
-    useEffect(() => {
-        if (page > 500) {
-            dispatch(
-                fetchFilter({ page: 500, genres: stringGenres, type: type })
-            );
-            setPage(500);
-        } else {
-            dispatch(
-                fetchFilter({ page: page, genres: stringGenres, type: type })
-            );
-        }
+        fetchNowPlayingData(page);
     }, [page]);
+
+    const fetchNowPlayingData = async (page) => {
+        try {
+            setLoading(true);
+            let res = await getNowPlaying(page);
+            setTimeout(() => {
+                setLoading(false);
+            }, 2000);
+            if (res && res.status) {
+                setListMovie(res.data.results);
+                setTotal(res.data.total_results);
+            }
+        } catch (error) {
+            setLoading(false);
+            throw new Error("Not API results data");
+        }
+    };
 
     const onChange = (paginate) => {
         if (count < 3) {
@@ -72,22 +54,15 @@ function ShowMovie() {
 
     return (
         <>
-            <div className="mt-3">
-                <Button
-                    type="primary"
-                    danger
-                    size="large"
-                    onClick={() => handleClick()}
-                >
-                    Filter
-                </Button>
-            </div>
-            <div className="w-full">
+            <div className="w-full mt-[50px]">
+                <h1 className="text-center text-2xl font-bold main-title">
+                    Now Playing To Day
+                </h1>
                 <div className="my-5 flex justify-around items-center flex-wrap gap-y-3 gap-x-1">
                     {loading ? (
                         <Skeletons />
-                    ) : data && data.length > 0 ? (
-                        data.map((movie, index) => {
+                    ) : listMovie && listMovie.length > 0 ? (
+                        listMovie.map((movie, index) => {
                             return (
                                 <CardMovie
                                     key={index}
@@ -108,13 +83,11 @@ function ShowMovie() {
                 </div>
                 <div className="flex justify-center items-center">
                     <Pagination
-                        total={total > 500 ? 10000 : total}
+                        total={total === 0 ? 1 : total}
                         onChange={onChange}
                         showSizeChanger={false}
                         showLessItems={true}
                         disabled={loading}
-                        pageSize={20}
-                        current={page}
                     />
                 </div>
             </div>
@@ -122,4 +95,4 @@ function ShowMovie() {
     );
 }
 
-export default ShowMovie;
+export default NowPlaying;

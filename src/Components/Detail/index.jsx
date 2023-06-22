@@ -133,7 +133,11 @@ function Detail() {
                                 <span className="font-bold">
                                     Movie Duration:{" "}
                                 </span>
-                                <span>{movie.runtime} minutes</span>
+                                <span>
+                                    {movie.runtime
+                                        ? movie.runtime + " minutes"
+                                        : "Unknown"}{" "}
+                                </span>
                             </div>
                             <p className="border w-full"></p>
                             <div className="my-1">
