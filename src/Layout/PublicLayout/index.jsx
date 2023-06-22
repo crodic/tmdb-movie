@@ -1,5 +1,5 @@
 import NowPlaying from "../../Components/NowPlaying";
-import Search from "../../Components/Search";
+import Search from "../../Components/SearchData";
 import ShowManager from "../../Components/ShowManager";
 import Slider from "../../Components/Slider";
 import UpComing from "../../Components/UpComing";

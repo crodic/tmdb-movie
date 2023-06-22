@@ -31,7 +31,6 @@ export const fetchFilter = createAsyncThunk("/filter/fetchFilter", async ({ page
     try {
         let res = await filterMovie({ page, genres, type });
         if (res && res.status === 200) {
-            console.log(res)
             return res.data
         }
     } catch (error) { }

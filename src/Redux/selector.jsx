@@ -2,8 +2,6 @@
 
 export const getCarouselData = (state) => state.carousel;
 
-export const getValueSearch = (state) => state.search.value;
-
 export const getDataFilter = (state) => state.filter.data;
 
 export const getDataFilters = (state) => state.filter.data.results;

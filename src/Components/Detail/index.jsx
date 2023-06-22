@@ -59,6 +59,9 @@ function Detail() {
                                                 ? movie.title
                                                 : movie.original_name
                                         }
+                                        onClick={() => {
+                                            handleClick(movie.imdb_id);
+                                        }}
                                         className="h-[300px] w-[200px] rounded-md cursor-pointer"
                                     />
                                     <span className="lang absolute bg-blue-100 w-[30px] h-[30px] rounded-[50%] flex justify-center items-center">
@@ -67,7 +70,12 @@ function Detail() {
                                 </div>
                             </div>
                             <div className="font-semibold mt-3 text-center">
-                                <span>
+                                <span
+                                    onClick={() => {
+                                        handleClick(movie.imdb_id);
+                                    }}
+                                    className="cursor-pointer hover:text-blue-400"
+                                >
                                     {movie.original_title
                                         ? movie.original_title
                                         : movie.original_name}

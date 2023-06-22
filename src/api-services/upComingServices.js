@@ -20,7 +20,7 @@ export const getMovieByID = (id, type) => {
 }
 
 export const getMovieByKeyword = (keyword, page) => {
-    return customizeAxios.get(`/search/keyword?query=${keyword}&page=${page}`, {
+    return customizeAxios.get(`/search/movie?query=${keyword}&page=${page}`, {
         headers: {
             accept: 'application/json',
             Authorization: `Bearer ${import.meta.env.VITE_API_KEY_AUTH}`

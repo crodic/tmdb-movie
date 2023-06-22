@@ -40,9 +40,6 @@ function ShowMovie() {
     }, []);
 
     useEffect(() => {
-        if (dataFull.total_results > 500) {
-            console.log(total);
-        }
         setTotal(dataFull.total_results);
     }, [data]);
 
