@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
     Navbar,
     Typography,
@@ -11,10 +11,12 @@ import ProfileMenu from "./ProfileMenu";
 import NavList from "./NavList";
 import { Link } from "react-router-dom";
 import "./style.scss";
+import { useSelector } from "react-redux";
+import { getAuth } from "../../Redux/selector";
 
 export default function Header() {
     const [isNavOpen, setIsNavOpen] = React.useState(false);
-    const [auth, setAuth] = useState(false);
+    const auth = useSelector(getAuth);
     const toggleIsNavOpen = () => setIsNavOpen((cur) => !cur);
 
     React.useEffect(() => {
@@ -43,7 +45,9 @@ export default function Header() {
                     <Bars2Icon className="h-6 w-6" />
                 </IconButton>
                 {auth ? (
-                    <ProfileMenu />
+                    <>
+                        <ProfileMenu />
+                    </>
                 ) : (
                     <div className="lg:ml-auto flex">
                         <Button
@@ -59,7 +63,7 @@ export default function Header() {
                             size="sm"
                             className="button-actions"
                         >
-                            Sign Up
+                            <Link to="/login">Sign Up</Link>
                         </Button>
                     </div>
                 )}

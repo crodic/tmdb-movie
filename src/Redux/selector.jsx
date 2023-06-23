@@ -13,3 +13,9 @@ export const getTotalFilter = (state) => state.filter.data.total_results;
 export const getLoadingFilter = (state) => state.filter.loading;
 
 export const getTypeMovie = (state) => state.filter.type;
+
+export const getAuth = (state) => state.auth.auth;
+
+export const getAvatar = (state) => state.auth.user.avatar;
+
+export const getUserName = (state) => state.auth.user.userName;
