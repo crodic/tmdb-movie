@@ -4,6 +4,7 @@ import MovieDetail from "../pages/MovieDetail";
 import NotFound from "../pages/404";
 import Detail from "../Components/Detail";
 import LoginPage from "../pages/Login";
+import SignInPage from "../pages/SignIn";
 
 function PublicRouter() {
     return (
@@ -14,6 +15,7 @@ function PublicRouter() {
                     <Route path="/movie/:id" element={<Detail />} />
                 </Route>
                 <Route path="/login" element={<LoginPage />} />
+                <Route path="/signin" element={<SignInPage />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </>

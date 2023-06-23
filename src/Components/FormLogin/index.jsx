@@ -4,7 +4,11 @@ import { GoogleOutlined } from "@ant-design/icons";
 import { auth, provider } from "../../firebase/config";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+    GoogleAuthProvider,
+    signInWithEmailAndPassword,
+    signInWithPopup,
+} from "firebase/auth";
 import {
     updateAuth,
     updateToken,
@@ -14,36 +18,48 @@ import {
 const FormLogin = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const onFinish = (values) => {
-        console.log("Received values of form: ", values);
+
+    const saveInfo = (info, state) => {
+        const obj = {
+            userName: info.displayName ? info.displayName : "New User",
+            avatar: info.photoURL
+                ? info.photoURL
+                : "/src/images/avatar-default.png",
+            email: info.email,
+        };
+        state.setItem("token", info.accessToken);
+        state.setItem("user", JSON.stringify(obj));
+        state.setItem("auth", true);
+        dispatch(updateAuth(true));
+        dispatch(updateUser(obj));
+        dispatch(updateToken(info.accessToken));
     };
 
-    const handleLogin = () => {
+    const onFinish = (values) => {
+        signInWithEmailAndPassword(auth, values.username, values.password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                if (values.remember) {
+                    saveInfo(user, localStorage);
+                } else {
+                    saveInfo(user, sessionStorage);
+                }
+                navigate("/");
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+            });
+    };
+
+    const handleLoginGoogle = () => {
         signInWithPopup(auth, provider)
             .then((result) => {
                 const credential =
                     GoogleAuthProvider.credentialFromResult(result);
                 const token = credential.accessToken;
                 const user = result.user;
-                localStorage.setItem("token", user.accessToken);
-                localStorage.setItem(
-                    "user",
-                    JSON.stringify({
-                        userName: user.displayName,
-                        avatar: user.photoURL,
-                        email: user.email,
-                    })
-                );
-                localStorage.setItem("auth", true);
-                dispatch(updateAuth(true));
-                dispatch(
-                    updateUser({
-                        userName: user.displayName,
-                        avatar: user.photoURL,
-                        email: user.email,
-                    })
-                );
-                dispatch(updateToken(user.accessToken));
+                saveInfo(user);
                 navigate("/");
             })
             .catch((error) => {
@@ -53,6 +69,7 @@ const FormLogin = () => {
                     GoogleAuthProvider.credentialFromError(error);
             });
     };
+
     return (
         <>
             <h1 className="text-center my-5 font-bold text-xl">The Movie</h1>
@@ -119,7 +136,7 @@ const FormLogin = () => {
                 </Form.Item>
             </Form>
             <button
-                onClick={handleLogin}
+                onClick={handleLoginGoogle}
                 className="w-full bg-blue-50 py-2 rounded-md flex justify-center items-center hover:bg-blue-300 transition-all duration-500 hover:text-white"
             >
                 <GoogleOutlined />

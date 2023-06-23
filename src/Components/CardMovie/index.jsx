@@ -1,8 +1,11 @@
 import "./style.scss";
 import Image from "../../images/image_not_found.jpg";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { getAuth } from "../../Redux/selector";
 
 const CardMovie = ({ image, title, id, type }) => {
+    const auth = useSelector(getAuth);
     const handleOnClick = () => {
         window.scrollTo(0, 0);
     };
@@ -16,7 +19,7 @@ const CardMovie = ({ image, title, id, type }) => {
                 }}
                 title={title}
             >
-                <Link to={`/movie/${id}?type=${type}`}>
+                <Link to={auth ? `/movie/${id}?type=${type}` : "/login"}>
                     <img
                         src={
                             image

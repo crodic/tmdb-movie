@@ -40,10 +40,6 @@ export default function ProfileMenu() {
             icon: UserCircleIcon,
         },
         {
-            label: "Edit Profile",
-            icon: Cog6ToothIcon,
-        },
-        {
             label: "Inbox",
             icon: InboxArrowDownIcon,
         },
@@ -61,9 +57,16 @@ export default function ProfileMenu() {
         if (isLastItem) {
             signOut(auth)
                 .then(() => {
-                    localStorage.removeItem("token");
-                    localStorage.removeItem("user");
-                    localStorage.removeItem("auth");
+                    if (localStorage.getItem("auth")) {
+                        localStorage.removeItem("token");
+                        localStorage.removeItem("user");
+                        localStorage.removeItem("auth");
+                    }
+                    if (sessionStorage.getItem("auth")) {
+                        sessionStorage.removeItem("token");
+                        sessionStorage.removeItem("user");
+                        sessionStorage.removeItem("auth");
+                    }
                     dispatch(updateAuth(false));
                     navigate("/login");
                 })
@@ -101,7 +104,6 @@ export default function ProfileMenu() {
                 {profileMenuItems.map(({ label, icon }, key) => {
                     const isLastItem = key === profileMenuItems.length - 1;
                     const isFirstItem = key === 0;
-                    console.log(isFirstItem);
                     return (
                         <MenuItem
                             key={label}

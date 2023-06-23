@@ -56,7 +56,7 @@ export default function Header() {
                             color="blue-gray"
                             className="button-actions"
                         >
-                            Sign In
+                            <Link to="/signin">Sign In</Link>
                         </Button>
                         <Button
                             variant="gradient"
