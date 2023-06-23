@@ -14,6 +14,7 @@ import {
     updateToken,
     updateUser,
 } from "../../Redux/SliceReducer/authSlice";
+import AvatarDefault from "../../images/avatar-default.png";
 
 const FormLogin = () => {
     const navigate = useNavigate();
@@ -22,9 +23,7 @@ const FormLogin = () => {
     const saveInfo = (info, state) => {
         const obj = {
             userName: info.displayName ? info.displayName : "New User",
-            avatar: info.photoURL
-                ? info.photoURL
-                : "/src/images/avatar-default.png",
+            avatar: info.photoURL ? info.photoURL : AvatarDefault,
             email: info.email,
         };
         state.setItem("token", info.accessToken);
