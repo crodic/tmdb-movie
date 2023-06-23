@@ -2,7 +2,7 @@ import { LockOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Form, Input } from "antd";
 import { GoogleOutlined } from "@ant-design/icons";
 import { auth, provider } from "../../firebase/config";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
     GoogleAuthProvider,
@@ -15,10 +15,17 @@ import {
     updateUser,
 } from "../../Redux/SliceReducer/authSlice";
 import AvatarDefault from "../../images/avatar-default.png";
+import { getAuth } from "../../Redux/selector";
+import { useEffect } from "react";
 
 const FormLogin = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const isLogin = useSelector(getAuth);
+
+    useEffect(() => {
+        isLogin && navigate("/");
+    }, []);
 
     const saveInfo = (info, state) => {
         const obj = {
@@ -34,39 +41,47 @@ const FormLogin = () => {
         dispatch(updateToken(info.accessToken));
     };
 
+    const signInEmail = async (auth, email, password, remember) => {
+        try {
+            let userCredential = await signInWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+            const user = userCredential.user;
+            if (remember) {
+                saveInfo(user, localStorage);
+            } else {
+                saveInfo(user, sessionStorage);
+            }
+            navigate("/");
+        } catch (error) {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+        }
+    };
+
+    const signInGoogle = async (auth, provider) => {
+        try {
+            let result = await signInWithPopup(auth, provider);
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            const user = result.user;
+            saveInfo(user, localStorage);
+            navigate("/");
+        } catch (error) {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            const credential = GoogleAuthProvider.credentialFromError(error);
+        }
+    };
+
     const onFinish = (values) => {
-        signInWithEmailAndPassword(auth, values.username, values.password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                if (values.remember) {
-                    saveInfo(user, localStorage);
-                } else {
-                    saveInfo(user, sessionStorage);
-                }
-                navigate("/");
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-            });
+        signInEmail(auth, values.username, values.password, values.remember);
     };
 
     const handleLoginGoogle = () => {
-        signInWithPopup(auth, provider)
-            .then((result) => {
-                const credential =
-                    GoogleAuthProvider.credentialFromResult(result);
-                const token = credential.accessToken;
-                const user = result.user;
-                saveInfo(user, localStorage);
-                navigate("/");
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                const credential =
-                    GoogleAuthProvider.credentialFromError(error);
-            });
+        signInGoogle(auth, provider);
     };
 
     return (

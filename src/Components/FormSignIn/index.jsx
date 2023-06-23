@@ -3,6 +3,9 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../../firebase/config";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { getAuth } from "../../Redux/selector";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 const layout = {
     labelCol: {
         span: 8,
@@ -21,6 +24,11 @@ const validateMessages = {
 
 const FormSignIn = () => {
     const navigate = useNavigate();
+    const isLogin = useSelector(getAuth);
+
+    useEffect(() => {
+        isLogin && navigate("/");
+    }, []);
 
     const updateUserProfile = async (currentUser, object) => {
         try {
