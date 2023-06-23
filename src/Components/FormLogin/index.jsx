@@ -58,7 +58,7 @@ const FormLogin = () => {
                     GoogleAuthProvider.credentialFromResult(result);
                 const token = credential.accessToken;
                 const user = result.user;
-                saveInfo(user);
+                saveInfo(user, localStorage);
                 navigate("/");
             })
             .catch((error) => {
