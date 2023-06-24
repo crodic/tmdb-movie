@@ -1,12 +1,12 @@
 import "./styles/global.scss";
-import PublicRouter from "./Routes/publicRouter";
+import ListRoutes from "./Routes/ListRoutes";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
     return (
         <>
-            <PublicRouter />
+            <ListRoutes />
             <ToastContainer
                 position="bottom-right"
                 autoClose={5000}

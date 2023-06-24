@@ -1,17 +1,18 @@
 import { Pagination } from "antd";
 import CardMovie from "../CardMovie";
 import { useEffect, useRef, useState } from "react";
-import { getUpComingMovie } from "../../api-services/upComingServices";
+import { getTopRate } from "../../api-services/homeServices";
 import Skeletons from "../Skeleton";
 import EmptyContent from "../Empty";
 import { scrollToContent } from "../../customize/function";
 
-function UpComing({ content }) {
+function TopRate({ content }) {
     const [count, setCount] = useState(0);
     const [page, setPage] = useState(1);
     const [total, setTotal] = useState(0);
     const [listMovie, setListMovie] = useState([]);
     const [loading, setLoading] = useState(false);
+
     const main = useRef(null);
 
     useEffect(() => {
@@ -19,17 +20,17 @@ function UpComing({ content }) {
             ? sessionStorage.getItem("counted")
             : sessionStorage.setItem("counted", 0);
         setCount(counted);
-        // content((prev) => ({ ...prev, upcoming: main.current }));
+        // content((prev) => ({ ...prev, toprate: main.current }));
     }, []);
 
     useEffect(() => {
-        fetchUpComingData(page);
+        fetchTopRateData(page);
     }, [page]);
 
-    const fetchUpComingData = async (page) => {
+    const fetchTopRateData = async (page) => {
         try {
             setLoading(true);
-            let res = await getUpComingMovie(page);
+            let res = await getTopRate(page);
             setTimeout(() => {
                 setLoading(false);
             }, 2000);
@@ -58,7 +59,7 @@ function UpComing({ content }) {
         <>
             <div className="w-full" ref={main}>
                 <h1 className="text-center text-2xl font-bold main-title">
-                    UP COMING
+                    Top Rate
                 </h1>
                 <div className="my-5 flex justify-around items-center flex-wrap gap-y-3 gap-x-1">
                     {loading ? (
@@ -85,11 +86,13 @@ function UpComing({ content }) {
                 </div>
                 <div className="flex justify-center items-center">
                     <Pagination
-                        total={total === 0 ? 1 : total}
+                        total={total > 500 ? 10000 : total}
                         onChange={onChange}
                         showSizeChanger={false}
                         showLessItems={true}
                         disabled={loading}
+                        pageSize={20}
+                        current={page}
                     />
                 </div>
             </div>
@@ -97,4 +100,4 @@ function UpComing({ content }) {
     );
 }
 
-export default UpComing;
+export default TopRate;

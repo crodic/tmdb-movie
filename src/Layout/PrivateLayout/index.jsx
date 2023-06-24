@@ -1,3 +1,5 @@
+import { useState } from "react";
+import ContentPosition from "../../Components/ContentPosition";
 import NowPlaying from "../../Components/NowPlaying";
 import Search from "../../Components/SearchData";
 import ShowManager from "../../Components/ShowManager";
@@ -6,7 +8,8 @@ import TopRate from "../../Components/TopRate";
 import UpComing from "../../Components/UpComing";
 import "./style.scss";
 
-function PublicLayout() {
+function PrivateLayout() {
+    const [contentItem, setContentItem] = useState({});
     return (
         <>
             <div className="relative w-screen max-w-[95%] mx-auto flex flex-col gap-y-10">
@@ -66,12 +69,13 @@ function PublicLayout() {
                     </div>
                 </div>
                 <Search />
-                <UpComing />
-                <NowPlaying />
-                <TopRate />
+                <UpComing content={setContentItem} />
+                <NowPlaying content={setContentItem} />
+                <TopRate content={setContentItem} />
+                <ContentPosition contentTake={contentItem} />
             </div>
         </>
     );
 }
 
-export default PublicLayout;
+export default PrivateLayout;

@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { getMovieByKeyword } from "../../api-services/upComingServices";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { getAuth } from "../../Redux/selector";
 import "./style.scss";
 
 function Search() {
@@ -13,9 +15,10 @@ function Search() {
     const navigate = useNavigate();
     const input = useRef(null);
     const popover = useRef(null);
+    const auth = useSelector(getAuth);
 
     const handleClick = (id) => {
-        navigate(`/movie/${id}?type=movie`);
+        navigate(auth ? `/movie/${id}?type=movie` : "/login");
     };
 
     const handleChange = (e) => {

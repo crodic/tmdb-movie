@@ -1,23 +1,26 @@
 import { Pagination } from "antd";
 import CardMovie from "../CardMovie";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { getUpComingMovie } from "../../api-services/upComingServices";
 import Skeletons from "../Skeleton";
 import { getNowPlaying } from "../../api-services/homeServices";
 import EmptyContent from "../Empty";
+import { scrollToContent } from "../../customize/function";
 
-function NowPlaying() {
+function NowPlaying({ content }) {
     const [count, setCount] = useState(0);
     const [page, setPage] = useState(1);
     const [total, setTotal] = useState(0);
     const [listMovie, setListMovie] = useState([]);
     const [loading, setLoading] = useState(false);
+    const main = useRef(null);
 
     useEffect(() => {
         let counted = sessionStorage.getItem("counted")
             ? sessionStorage.getItem("counted")
             : sessionStorage.setItem("counted", 0);
         setCount(counted);
+        // content((prev) => ({ ...prev, nowplaying: main.current }));
     }, []);
 
     useEffect(() => {
@@ -48,13 +51,13 @@ function NowPlaying() {
             let countInSess = sessionStorage.getItem("counted");
             sessionStorage.setItem("counted", Number(countInSess) + 1);
         }
-        window.scrollTo(0, 0);
+        scrollToContent(main.current);
         setPage(paginate);
     };
 
     return (
         <>
-            <div className="w-full mt-[50px]">
+            <div className="w-full mt-[50px]" ref={main}>
                 <h1 className="text-center text-2xl font-bold main-title">
                     Now Playing To Day
                 </h1>

@@ -6,7 +6,7 @@ import Detail from "../Components/Detail";
 import LoginPage from "../pages/Login";
 import SignInPage from "../pages/SignIn";
 
-function PublicRouter() {
+function ListRoutes() {
     return (
         <>
             <Routes>
@@ -22,4 +22,4 @@ function PublicRouter() {
     );
 }
 
-export default PublicRouter;
+export default ListRoutes;

@@ -1,0 +1,49 @@
+.customize-bg {
+    background-image: linear-gradient(to right, #acb6e5, #86dfe8);
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    transition: all 0.5s;
+
+    &:hover {
+        background-image: linear-gradient(to top, #86dfe8, #acb6e5);
+        color: white;
+    }
+    .manager-information,
+    .manager-icon {
+        flex-basis: 80%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .manager-icon {
+        flex-basis: 20%;
+        font-weight: bold;
+    }
+}
+
+.main-title {
+    // background-image: linear-gradient(to right, #acb6e5, #86dfe8);
+    padding: 5px 0px;
+    border-radius: 20px;
+    animation: changeDirTitle 5s 1s infinite;
+}
+
+@keyframes changeDirTitle {
+    0% {
+        background-image: linear-gradient(45deg, #acb6e5, #86dfe8);
+        color: black;
+    }
+    0% {
+        background-image: linear-gradient(120deg, #acb6e5, #86dfe8);
+        color: whitesmoke;
+    }
+    100% {
+        background-image: linear-gradient(180deg, #86dfe8, #acb6e5);
+        color: white;
+    }
+}

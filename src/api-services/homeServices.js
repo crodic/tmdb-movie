@@ -8,3 +8,12 @@ export const getNowPlaying = (page) => {
         }
     })
 }
+
+export const getTopRate = (page) => {
+    return customizeAxios.get(`/movie/top_rated?language=en-US&page=${page}`, {
+        headers: {
+            accept: 'application/json',
+            Authorization: `Bearer ${import.meta.env.VITE_API_KEY_AUTH}`
+        }
+    })
+}
