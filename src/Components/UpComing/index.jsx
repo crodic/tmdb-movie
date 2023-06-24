@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { getUpComingMovie } from "../../api-services/upComingServices";
 import Skeletons from "../Skeleton";
 import EmptyContent from "../Empty";
-import { scrollToContent } from "../../customize/function";
+import { scrollToContent } from "../../utility/function";
 
 function UpComing({ content }) {
     const [count, setCount] = useState(0);
@@ -19,7 +19,7 @@ function UpComing({ content }) {
             ? sessionStorage.getItem("counted")
             : sessionStorage.setItem("counted", 0);
         setCount(counted);
-        // content((prev) => ({ ...prev, upcoming: main.current }));
+        content && content((prev) => ({ ...prev, upcoming: main.current }));
     }, []);
 
     useEffect(() => {

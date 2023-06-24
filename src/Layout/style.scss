@@ -27,18 +27,21 @@
 }
 
 .main-title {
-    // background-image: linear-gradient(to right, #acb6e5, #86dfe8);
     padding: 5px 0px;
     border-radius: 20px;
-    animation: changeDirTitle 5s 1s infinite;
+    animation: changeDirTitle 5s;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+    animation-fill-mode: both;
+    animation-delay: 2s;
 }
 
 @keyframes changeDirTitle {
     0% {
         background-image: linear-gradient(45deg, #acb6e5, #86dfe8);
-        color: black;
+        color: wheat;
     }
-    0% {
+    50% {
         background-image: linear-gradient(120deg, #acb6e5, #86dfe8);
         color: whitesmoke;
     }

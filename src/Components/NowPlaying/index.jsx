@@ -5,7 +5,7 @@ import { getUpComingMovie } from "../../api-services/upComingServices";
 import Skeletons from "../Skeleton";
 import { getNowPlaying } from "../../api-services/homeServices";
 import EmptyContent from "../Empty";
-import { scrollToContent } from "../../customize/function";
+import { scrollToContent } from "../../utility/function";
 
 function NowPlaying({ content }) {
     const [count, setCount] = useState(0);
@@ -20,7 +20,7 @@ function NowPlaying({ content }) {
             ? sessionStorage.getItem("counted")
             : sessionStorage.setItem("counted", 0);
         setCount(counted);
-        // content((prev) => ({ ...prev, nowplaying: main.current }));
+        content && content((prev) => ({ ...prev, nowplaying: main.current }));
     }, []);
 
     useEffect(() => {

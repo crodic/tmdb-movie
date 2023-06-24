@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { getTopRate } from "../../api-services/homeServices";
 import Skeletons from "../Skeleton";
 import EmptyContent from "../Empty";
-import { scrollToContent } from "../../customize/function";
+import { scrollToContent } from "../../utility/function";
 
 function TopRate({ content }) {
     const [count, setCount] = useState(0);
@@ -20,7 +20,7 @@ function TopRate({ content }) {
             ? sessionStorage.getItem("counted")
             : sessionStorage.setItem("counted", 0);
         setCount(counted);
-        // content((prev) => ({ ...prev, toprate: main.current }));
+        content && content((prev) => ({ ...prev, toprate: main.current }));
     }, []);
 
     useEffect(() => {

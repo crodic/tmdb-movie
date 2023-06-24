@@ -3,10 +3,10 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { getMovieByID } from "../../api-services/upComingServices";
 import { Button } from "antd";
 import EllipsisContent from "../EllipsisContent";
-import "./style.scss";
 import ModalMap from "./ModalMap";
 import ModalTrailer from "../ModalTrailer";
 import Skeletons from "../Skeleton";
+import "./style.scss";
 
 function Detail() {
     const [movie, setMovie] = useState({});

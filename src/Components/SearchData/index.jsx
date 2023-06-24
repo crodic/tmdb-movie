@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getAuth } from "../../Redux/selector";
 import "./style.scss";
+import { capitalizeFirstLetter } from "../../utility/function";
 
 function Search() {
     const [open, setOpen] = useState(false);
@@ -58,20 +59,6 @@ function Search() {
             }
         } catch (error) {}
     };
-
-    //DOM EVENT
-    function capitalizeFirstLetter(str) {
-        const words = str.split(" ");
-
-        const capitalizedWords = words.map((word) => {
-            if (word.length > 0) {
-                return word.charAt(0).toUpperCase() + word.slice(1);
-            }
-            return word;
-        });
-        const capitalizedStr = capitalizedWords.join(" ");
-        return capitalizedStr;
-    }
 
     useEffect(() => {
         const handleClickOutside = (event) => {

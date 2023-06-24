@@ -12,7 +12,7 @@ import {
     CogIcon,
     Square3Stack3DIcon,
 } from "@heroicons/react/24/outline";
-import { scrollToContent } from "../../customize/function";
+import { scrollToContent } from "../../utility/function";
 
 export default function ContentPosition({ contentTake }) {
     const labelProps = {
@@ -23,8 +23,8 @@ export default function ContentPosition({ contentTake }) {
     };
 
     return (
-        <div className="h-80 w-full fixed right-5 bottom-5">
-            <div className="absolute bottom-0 right-0 font">
+        <div className="w-full ">
+            <div className="font fixed right-5 bottom-5 z-30">
                 <SpeedDial>
                     <SpeedDialHandler>
                         <IconButton size="lg" className="rounded-full">

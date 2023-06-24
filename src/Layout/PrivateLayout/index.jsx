@@ -6,7 +6,7 @@ import ShowManager from "../../Components/ShowManager";
 import Slider from "../../Components/Slider";
 import TopRate from "../../Components/TopRate";
 import UpComing from "../../Components/UpComing";
-import "./style.scss";
+import "../style.scss";
 
 function PrivateLayout() {
     const [contentItem, setContentItem] = useState({});
