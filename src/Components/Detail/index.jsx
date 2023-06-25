@@ -1,15 +1,27 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { getMovieByID } from "../../api-services/upComingServices";
+import {
+    Link,
+    useNavigate,
+    useParams,
+    useSearchParams,
+} from "react-router-dom";
+import {
+    getCastByMovie,
+    getMovieByID,
+} from "../../api-services/upComingServices";
 import { Button } from "antd";
 import EllipsisContent from "../EllipsisContent";
 import ModalMap from "./ModalMap";
 import ModalTrailer from "../ModalTrailer";
 import Skeletons from "../Skeleton";
 import "./style.scss";
+import Rating from "../Rating";
+import { HeartFilled, HeartOutlined } from "@ant-design/icons";
 
 function Detail() {
     const [movie, setMovie] = useState({});
+    const [cast, setCast] = useState([]);
+    const [like, setLike] = useState(false);
     const { id } = useParams();
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
@@ -17,7 +29,8 @@ function Detail() {
     const type = searchParams.get("type");
     useEffect(() => {
         fetchMovieID(id, type);
-    }, [id]);
+        fetchCastMovie(id, type);
+    }, [id, type]);
 
     const fetchMovieID = async (id, type) => {
         try {
@@ -31,6 +44,16 @@ function Detail() {
             setLoading(false);
             navigate("*");
         }
+    };
+
+    const fetchCastMovie = async (id, type) => {
+        try {
+            let res = await getCastByMovie(id, type);
+            if (res && res.status === 200) {
+                let data = res.data.cast.slice(0, 3);
+                setCast(data);
+            }
+        } catch (error) {}
     };
 
     const handleClick = (id) => {
@@ -96,11 +119,30 @@ function Detail() {
                             <p className="border w-full block lg:hidden mt-3"></p>
                         </div>
                         <div className="p-5 min-w-[70%] lg:max-h-[480px] overflow-hidden lg:overflow-y-scroll content-main">
-                            <h1 className="text-2xl relative">
-                                {movie.title
-                                    ? movie.title
-                                    : movie.original_name}
+                            <h1 className="text-2xl relative flex justify-between items-center">
+                                <div className="flex justify-between items-center">
+                                    {like ? (
+                                        <HeartFilled
+                                            title="unlike"
+                                            className="mr-2 text-red-600 cursor-pointer"
+                                            onClick={() => setLike(!like)}
+                                        />
+                                    ) : (
+                                        <HeartOutlined
+                                            title="like"
+                                            className="mr-2 text-red-600 cursor-pointer"
+                                            onClick={() => setLike(!like)}
+                                        />
+                                    )}
+
+                                    {movie.title
+                                        ? movie.title
+                                        : movie.original_name}
+                                </div>
+                                <Rating />
                             </h1>
+
+                            {/* Main Content */}
                             <p className="border w-full"></p>
                             <div className="my-1">
                                 <p className="font-bold">Overview: </p>
@@ -135,6 +177,43 @@ function Detail() {
                                             </span>
                                         );
                                     })}
+                            </div>
+                            <p className="border w-full"></p>
+                            <div className="my-1 flex justify-between">
+                                <div>
+                                    <span className="font-bold">Casts: </span>
+                                    {cast &&
+                                        cast.length > 0 &&
+                                        cast.map((item) => {
+                                            return (
+                                                <span key={item.id}>
+                                                    <Link
+                                                        to={`/cast/${item.id}`}
+                                                        className="text-blue-400 hover:text-blue-900 cursor-pointer"
+                                                    >
+                                                        {item.name}
+                                                    </Link>
+                                                    <span> | </span>
+                                                </span>
+                                            );
+                                        })}
+                                </div>
+                                <div>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth={1.5}
+                                        stroke="currentColor"
+                                        className="w-6 h-6 cursor-pointer text-blue-300 hover:text-blue-600"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M8.25 4.5l7.5 7.5-7.5 7.5"
+                                        />
+                                    </svg>
+                                </div>
                             </div>
                             <p className="border w-full"></p>
                             <div className="my-1">

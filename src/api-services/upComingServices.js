@@ -36,3 +36,12 @@ export const getVideoByID = (id, type) => {
         }
     })
 }
+
+export const getCastByMovie = (id, type) => {
+    return customizeAxios.get(`/${type}/${id}/credits`, {
+        headers: {
+            accept: 'application/json',
+            Authorization: `Bearer ${import.meta.env.VITE_API_KEY_AUTH}`
+        }
+    })
+}

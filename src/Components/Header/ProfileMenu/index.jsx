@@ -108,6 +108,9 @@ export default function ProfileMenu() {
                         <MenuItem
                             key={label}
                             onClick={() => {
+                                if (label === "My Profile") {
+                                    navigate("/user");
+                                }
                                 closeMenu(isLastItem);
                             }}
                             className={`flex items-center gap-2 rounded ${

@@ -5,6 +5,7 @@ import NotFound from "../pages/404";
 import Detail from "../Components/Detail";
 import LoginPage from "../pages/Login";
 import SignInPage from "../pages/SignIn";
+import ProfilePage from "../pages/Profile";
 
 function ListRoutes() {
     return (
@@ -16,6 +17,7 @@ function ListRoutes() {
                 </Route>
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/signin" element={<SignInPage />} />
+                <Route path="/user" element={<ProfilePage />}></Route>
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </>

@@ -1,0 +1,12 @@
+.profile-content {
+    .avatar-wrapper {
+        &:hover .change-avatar {
+            display: flex;
+        }
+    }
+
+    .change-avatar {
+        background-color: rgba(128, 128, 128, 0.199);
+        transition: all 0.2s linear;
+    }
+}
