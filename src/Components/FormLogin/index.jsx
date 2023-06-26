@@ -17,6 +17,7 @@ import {
 import AvatarDefault from "../../images/avatar-default.png";
 import { getAuth } from "../../Redux/selector";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 const FormLogin = () => {
     const navigate = useNavigate();
@@ -27,11 +28,12 @@ const FormLogin = () => {
         isLogin && navigate("/");
     }, []);
 
-    const saveInfo = (info, state) => {
+    const saveInfo = (info, state, type) => {
         const obj = {
             userName: info.displayName ? info.displayName : "New User",
             avatar: info.photoURL ? info.photoURL : AvatarDefault,
             email: info.email,
+            service: type,
         };
         state.setItem("token", info.accessToken);
         state.setItem("user", JSON.stringify(obj));
@@ -50,12 +52,14 @@ const FormLogin = () => {
             );
             const user = userCredential.user;
             if (remember) {
-                saveInfo(user, localStorage);
+                saveInfo(user, localStorage, "email");
             } else {
-                saveInfo(user, sessionStorage);
+                saveInfo(user, sessionStorage, "email");
             }
+            toast.success("Đăng Nhập Thành Công");
             navigate("/");
         } catch (error) {
+            toast.error("Tài Khoản Hoặc Mật Khẩu Không Chính Xác");
             const errorCode = error.code;
             const errorMessage = error.message;
         }
@@ -67,7 +71,7 @@ const FormLogin = () => {
             const credential = GoogleAuthProvider.credentialFromResult(result);
             const token = credential.accessToken;
             const user = result.user;
-            saveInfo(user, localStorage);
+            saveInfo(user, localStorage, "google");
             navigate("/");
         } catch (error) {
             const errorCode = error.code;
@@ -129,7 +133,7 @@ const FormLogin = () => {
                     />
                 </Form.Item>
                 <Form.Item className="flex justify-around">
-                    <Form.Item name="remember" valuePropName="checked" noStyle>
+                    <Form.Item name="remember" noStyle>
                         <Checkbox>Remember me</Checkbox>
                     </Form.Item>
                     <span> | </span>

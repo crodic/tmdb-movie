@@ -1,7 +1,40 @@
 import { Button } from "antd";
+import { useEffect, useState } from "react";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import ModalUser from "../ModalAvatar";
+import ModalEmail from "../ModalEmail";
 import "./style.scss";
 
 function ProfileUser() {
+    const [modalAvatar, setModalAvatar] = useState(false);
+    const [modalEmail, setModalEmail] = useState(false);
+    const [modalPassword, setModalPassword] = useState(false);
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [photo, setPhoto] = useState("/src/images/avatar-default.png");
+    const services = localStorage.getItem("token")
+        ? localStorage.getItem("user")
+        : sessionStorage.getItem("user");
+
+    const auth = getAuth();
+
+    useEffect(() => {
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                const displayName = user.displayName;
+                const EmailAuth = user.email;
+                const photoURL = user.photoURL;
+                setName(displayName);
+                setEmail(EmailAuth);
+                photoURL && setPhoto(photoURL);
+            }
+        });
+    }, [auth.currentUser?.email]);
+
+    const handleClickAvatar = () => {
+        setModalAvatar(true);
+    };
+
     return (
         <>
             <div className="profile-content max-w-[90%] w-full border mx-auto my-[50px] flex lg:flex-row flex-col rounded-xl shadow-2xl">
@@ -9,11 +42,14 @@ function ProfileUser() {
                     <div className="flex justify-center ">
                         <div className="avatar-wrapper relative overflow-hidden w-[120px] h-[120px] border rounded-[50%] cursor-pointer flex justify-center items-center bg-black">
                             <img
-                                src="/src/images/avatar-default.png"
+                                src={photo}
                                 alt=""
-                                className="avatar-user w-[110px] h-[110px]"
+                                className="avatar-user w-[110px] h-[110px] rounded-[50%]"
                             />
-                            <div className="change-avatar absolute bottom-0 right-0 left-0 top-0 hidden justify-center items-center">
+                            <div
+                                onClick={() => handleClickAvatar()}
+                                className="change-avatar absolute bottom-0 right-0 left-0 top-0 hidden justify-center items-center"
+                            >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24"
@@ -32,7 +68,7 @@ function ProfileUser() {
                     </div>
                     <div className="flex justify-center mt-5">
                         <h1 className="text-lg text-blue-600 font-extrabold">
-                            Crodic Crystal
+                            {name}
                         </h1>
                     </div>
                 </div>
@@ -40,34 +76,46 @@ function ProfileUser() {
                     <h1 className="text-2xl font-bold text-center">
                         User Information
                     </h1>
-                    <div className="p-3">
+                    <div className="p-3 mt-4">
                         <div>
-                            <span className="hidden lg:inline">
-                                Tên Đăng Nhập:{" "}
+                            <span className="hidden lg:inline font-extrabold">
+                                Tên Người Dùng:{" "}
                             </span>
                             <span className="lg:inline flex justify-center items-center">
-                                crodic3009
+                                {name}
                             </span>
                         </div>
                     </div>
                     <p className="border w-full"></p>
                     <div className="p-3 flex flex-col lg:flex-row lg:mt-0 justify-between lg:items-center">
                         <div>
-                            <span>Email: </span>
-                            <span>crodic3009@gmail.com</span>
+                            <span className="font-extrabold">Email: </span>
+                            <span>{email}</span>
                         </div>
                         <div className="mt-2">
-                            <span>Đổi Thông Tin</span>
+                            {JSON.parse(services).service === "email" && (
+                                <span
+                                    onClick={() => setModalEmail(true)}
+                                    className="text-blue-400 cursor-pointer"
+                                >
+                                    Đổi Thông Tin
+                                </span>
+                            )}
                         </div>
                     </div>
                     <p className="border w-full"></p>
                     <div className="p-3 flex flex-col lg:flex-row lg:mt-0 justify-between lg:items-center">
                         <div>
-                            <span>Mật Khẩu: </span>
+                            <span className="font-extrabold">Mật Khẩu: </span>
                             <span>********</span>
                         </div>
                         <div className="mt-2">
-                            <span>Đổi Mật Khẩu</span>
+                            <span
+                                onClick={() => setModalPassword(true)}
+                                className="text-blue-400 cursor-pointer"
+                            >
+                                Đổi Mật Khẩu
+                            </span>
                         </div>
                     </div>
                     <p className="border w-full"></p>
@@ -78,6 +126,8 @@ function ProfileUser() {
                     </div>
                 </div>
             </div>
+            <ModalUser modal={modalAvatar} callBack={setModalAvatar} />
+            <ModalEmail modal={modalEmail} callBack={setModalEmail} />
         </>
     );
 }
