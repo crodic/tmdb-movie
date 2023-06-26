@@ -133,7 +133,7 @@ const FormLogin = () => {
                     />
                 </Form.Item>
                 <Form.Item className="flex justify-around">
-                    <Form.Item name="remember" noStyle>
+                    <Form.Item name="remember" valuePropName="checked" noStyle>
                         <Checkbox>Remember me</Checkbox>
                     </Form.Item>
                     <span> | </span>

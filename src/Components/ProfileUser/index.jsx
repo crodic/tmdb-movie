@@ -4,6 +4,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import ModalUser from "../ModalAvatar";
 import ModalEmail from "../ModalEmail";
 import "./style.scss";
+import Avatar from "../../images/avatar-default.png";
 
 function ProfileUser() {
     const [modalAvatar, setModalAvatar] = useState(false);
@@ -11,7 +12,7 @@ function ProfileUser() {
     const [modalPassword, setModalPassword] = useState(false);
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
-    const [photo, setPhoto] = useState("/src/images/avatar-default.png");
+    const [photo, setPhoto] = useState(Avatar);
     const services = localStorage.getItem("token")
         ? localStorage.getItem("user")
         : sessionStorage.getItem("user");
