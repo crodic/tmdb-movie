@@ -2,11 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 let initialState = {
     auth: localStorage.getItem("auth") ?
-        localStorage.getItem("auth") : sessionStorage.getItem("auth") ? sessionStorage.getItem("auth") : "",
+        localStorage.getItem("auth") : sessionStorage.getItem("auth") ? sessionStorage.getItem("auth") : false,
 
     user: JSON.parse(localStorage.getItem("user")) ?
         JSON.parse(localStorage.getItem("user")) : JSON.parse(sessionStorage.getItem("user")) ?
-            JSON.parse(sessionStorage.getItem("user")) : { userName: "", avatar: "", email: "" },
+            JSON.parse(sessionStorage.getItem("user")) : { userName: "", avatar: "", email: "", service: "" },
 
     token: localStorage.getItem("token") ? localStorage.getItem("token") : sessionStorage.getItem("token") ?
         sessionStorage.getItem("token") : "",

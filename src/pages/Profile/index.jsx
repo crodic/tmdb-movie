@@ -2,15 +2,20 @@ import { useSelector } from "react-redux";
 import Header from "../../Components/Header";
 import ProfileUser from "../../Components/ProfileUser";
 import { getAuth } from "../../Redux/selector";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 function ProfilePage() {
     const auth = useSelector(getAuth);
     const navigate = useNavigate();
+
     useEffect(() => {
-        auth || navigate("/login");
+        console.log(auth);
+        if (!auth) {
+            navigate("/login");
+        }
     }, []);
+
     return (
         <>
             <Header />

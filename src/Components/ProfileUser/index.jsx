@@ -5,6 +5,7 @@ import ModalUser from "../ModalAvatar";
 import ModalEmail from "../ModalEmail";
 import "./style.scss";
 import Avatar from "../../images/avatar-default.png";
+import ModalPassword from "../ModalPassword";
 
 function ProfileUser() {
     const [modalAvatar, setModalAvatar] = useState(false);
@@ -94,7 +95,7 @@ function ProfileUser() {
                             <span>{email}</span>
                         </div>
                         <div className="mt-2">
-                            {JSON.parse(services).service === "email" && (
+                            {JSON.parse(services)?.service === "email" && (
                                 <span
                                     onClick={() => setModalEmail(true)}
                                     className="text-blue-400 cursor-pointer"
@@ -111,24 +112,27 @@ function ProfileUser() {
                             <span>********</span>
                         </div>
                         <div className="mt-2">
-                            <span
-                                onClick={() => setModalPassword(true)}
-                                className="text-blue-400 cursor-pointer"
-                            >
-                                Đổi Mật Khẩu
-                            </span>
+                            {JSON.parse(services)?.service === "email" && (
+                                <span
+                                    onClick={() => setModalPassword(true)}
+                                    className="text-blue-400 cursor-pointer"
+                                >
+                                    Đổi Mật Khẩu
+                                </span>
+                            )}
                         </div>
                     </div>
                     <p className="border w-full"></p>
                     <div className="p-3 mt-2 flex justify-end">
                         <Button type="primary" size="large" danger>
-                            Save
+                            Logout
                         </Button>
                     </div>
                 </div>
             </div>
             <ModalUser modal={modalAvatar} callBack={setModalAvatar} />
             <ModalEmail modal={modalEmail} callBack={setModalEmail} />
+            <ModalPassword modal={modalPassword} callBack={setModalPassword} />
         </>
     );
 }
