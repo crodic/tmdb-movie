@@ -6,6 +6,7 @@ import Detail from "../Components/Detail";
 import LoginPage from "../pages/Login";
 import SignInPage from "../pages/SignIn";
 import ProfilePage from "../pages/Profile";
+import NewsPage from "../pages/News";
 
 function ListRoutes() {
     return (
@@ -18,6 +19,7 @@ function ListRoutes() {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/signin" element={<SignInPage />} />
                 <Route path="/user" element={<ProfilePage />}></Route>
+                <Route path="/news" element={<NewsPage />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </>
